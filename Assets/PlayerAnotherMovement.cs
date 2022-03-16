@@ -2,22 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerAnotherMovement : MonoBehaviour
 {
-    public float playerSpeed = 5f;
-    public float jumpForce = 50f;
+    public float playerSpeed;
     Rigidbody2D rb;
     Vector2 movement;
     Animator animator;
+    public float jumpForce;
+    bool isGrounded = true;
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody2D>(); 
+
     }
     // Start is called before the first frame update
     void Start()
     {
-      
+        
     }
 
     // Update is called once per frame
@@ -26,19 +27,29 @@ public class PlayerMovement : MonoBehaviour
         movement.x = Input.GetAxis("Horizontal");
         movement.y = Input.GetAxis("Vertical");
         animator.SetFloat("isRun", movement.sqrMagnitude);
-       
-
-
-        
     }
     private void FixedUpdate()
     {
-        rb.MovePosition(rb.position + movement * playerSpeed * Time.fixedDeltaTime);
+        PlayerJump();
+    }
+
+    private void PlayerJump()
+    {
+        rb.velocity = new Vector2(movement.x * playerSpeed, rb.velocity.y);
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rb.AddForce(new Vector2(0f,movement.y* jumpForce ),ForceMode2D.Impulse);
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             animator.SetBool("isJumping", true);
+            isGrounded = false;
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        isGrounded = true;
+        if(collision.gameObject.tag == "Platform")
+        {
+            animator.SetBool("isJumping", true);
+        }
+    }
 }
