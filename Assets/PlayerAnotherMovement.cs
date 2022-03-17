@@ -27,21 +27,22 @@ public class PlayerAnotherMovement : MonoBehaviour
         movement.x = Input.GetAxis("Horizontal");
         movement.y = Input.GetAxis("Vertical");
         animator.SetFloat("isRun", movement.sqrMagnitude);
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            PlayerJump();
+        }
     }
     private void FixedUpdate()
     {
-        PlayerJump();
+            rb.velocity = new Vector2(movement.x * playerSpeed, rb.velocity.y);
     }
 
     private void PlayerJump()
-    {
-        rb.velocity = new Vector2(movement.x * playerSpeed, rb.velocity.y);
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
+    { 
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             animator.SetBool("isJumping", true);
             isGrounded = false;
-        }
+        
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -49,7 +50,7 @@ public class PlayerAnotherMovement : MonoBehaviour
         isGrounded = true;
         if(collision.gameObject.tag == "Platform")
         {
-            animator.SetBool("isJumping", true);
+            animator.SetBool("isJumping", false);
         }
     }
 }
