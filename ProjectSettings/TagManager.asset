@@ -54,3 +54,6 @@ TagManager:
   - name: Player
     uniqueID: 2158385837
     locked: 0
+  - name: Eagle
+    uniqueID: 1117384425
+    locked: 0
