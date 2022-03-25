@@ -9,10 +9,11 @@ public class PlayerAnotherMovement : MonoBehaviour
     Vector2 movement;
     Animator animator;
     public float jumpForce;
-    bool isGrounded = true;
+    public bool isGrounded = true;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>(); 
+        animator = GetComponent<Animator>();
 
     }
     // Start is called before the first frame update
@@ -52,5 +53,12 @@ public class PlayerAnotherMovement : MonoBehaviour
         {
             animator.SetBool("isJumping", false);
         }
+        if (collision.gameObject.tag == "Frog"|| collision.gameObject.tag == "Eagle" || collision.gameObject.tag == "Opossum")
+        {
+            Destroy(collision.gameObject);
+            GameObject.Find("ScoreManager").GetComponent<ScoreManagerScript>().Score(10);
+
+        }
+
     }
 }

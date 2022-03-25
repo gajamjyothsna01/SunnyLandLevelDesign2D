@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Platform
+  - Enemy
+  - Eagle
+  - Opossum
+  - Frog
   layers:
   - Default
   - TransparentFX
